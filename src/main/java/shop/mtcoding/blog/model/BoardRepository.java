@@ -6,9 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import shop.mtcoding.blog.dto.board.BoardResp.BoardMainRespDto;
+import shop.mtcoding.blog.dto.board.BoardResp.BoardDetailRespDto;
 
 @Mapper
 public interface BoardRepository {
+
+        public BoardDetailRespDto findByIdWithUser(int id);
 
         public List<BoardMainRespDto> findAllWithUser();
 
