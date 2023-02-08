@@ -22,9 +22,13 @@ public class BoardService {
     // where 절에 걸리는 파라메터를 앞에 받기
     @Transactional // 메서드가 종료됐을 때 커밋, 실패했을 때 롤백 ,롤백 기본값은 runtimeException
     public void 글쓰기(BoardSaveReqDto boardSaveReqDto, int userId) {
+
+        // 1. content 내용을 Document로 받고. img 찾아내서(1,2,3), src를 찾아
+
         int result = boardRepository.insert(
                 boardSaveReqDto.getTitle(),
                 boardSaveReqDto.getContent(),
+                null,
                 userId);
         if (result != 1) {
             throw new CustomException("글쓰기 실패", HttpStatus.INTERNAL_SERVER_ERROR);

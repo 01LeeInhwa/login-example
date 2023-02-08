@@ -1,7 +1,6 @@
 package shop.mtcoding.blog.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Answers.values;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -14,8 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import shop.mtcoding.blog.dto.board.BoardReq;
-import shop.mtcoding.blog.dto.board.BoardResp;
 import shop.mtcoding.blog.dto.board.BoardReq.BoardUpdateReqDto;
+import shop.mtcoding.blog.dto.board.BoardResp;
 import shop.mtcoding.blog.dto.board.BoardResp.BoardDetailRespDto;
 import shop.mtcoding.blog.model.User;
 
