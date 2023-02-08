@@ -6,20 +6,36 @@
             <form>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Enter title" name="title" id="title"
-                        value="제목입니다">
+                        value="${dto.title}">
                 </div>
 
                 <div class="form-group">
                     <textarea class="form-control summernote" rows="5" id="content" name="content">
-                    내용입니다.
+                    ${dto.content}
                 </textarea>
                 </div>
             </form>
-            <button type="button" class="btn btn-primary">글수정완료</button>
+            <button onclick="updateById(${dto.id})" class="btn btn-primary">글수정완료</button>
 
         </div>
 
         <script>
+                
+            function updateById(id){
+                $.ajax({
+                    type: "put",
+                    url: "/board/" + id + "/updateForm",
+                    dataType: "json"
+                
+                }).done((res) => {
+                    alert(res.msg);
+                    location.href = "/board";
+                }).fail((err)=>{
+                    //alert("글수정실패")
+                    alert(err.responseJSON.msg);
+                });
+            }
+
             $('.summernote').summernote({
                 tabsize: 2,
                 height: 400

@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,9 +32,11 @@ import shop.mtcoding.blog.dto.board.BoardResp;
 import shop.mtcoding.blog.dto.board.BoardResp.BoardDetailRespDto;
 import shop.mtcoding.blog.model.User;
 
+@Transactional // 메서드 실행 직후 무조건 롤백 , 단점 : auto_increment 초기화가 안됨 //(서비스 트랜잭션은 메서드가 종료됐을 때 커밋,
+               // 실패했을 때 롤백)
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-public class BoardControllerTest {
+public class BoardControllerTest { // 테스트는 격리성 필요 => 순서 중요
 
     @Autowired
     private ObjectMapper om;

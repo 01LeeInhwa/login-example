@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.blog.dto.board.BoardReq.BoardSaveReqDto;
+import shop.mtcoding.blog.dto.board.BoardReq.BoardUpdateReqDto;
 import shop.mtcoding.blog.handler.ex.CustomApiException;
 import shop.mtcoding.blog.handler.ex.CustomException;
 import shop.mtcoding.blog.model.Board;
@@ -19,7 +20,7 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     // where 절에 걸리는 파라메터를 앞에 받기
-    @Transactional
+    @Transactional // 메서드가 종료됐을 때 커밋, 실패했을 때 롤백 ,롤백 기본값은 runtimeException
     public void 글쓰기(BoardSaveReqDto boardSaveReqDto, int userId) {
         int result = boardRepository.insert(
                 boardSaveReqDto.getTitle(),
@@ -46,6 +47,12 @@ public class BoardService {
             // 로그를 남겨야 함 (DB or File)
         }
 
+    }
+
+    @Transactional
+    public void 게시글수정(BoardUpdateReqDto boardUpdateReqDto, int id) {
+        Board boardUd = boardRepository.findById(id);
+        boardUpdateReqDto.getTitle();
     }
 
 }

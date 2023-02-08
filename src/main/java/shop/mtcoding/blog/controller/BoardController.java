@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import shop.mtcoding.blog.dto.ResponseDto;
 import shop.mtcoding.blog.dto.board.BoardReq.BoardSaveReqDto;
+import shop.mtcoding.blog.dto.board.BoardReq.BoardUpdateReqDto;
 import shop.mtcoding.blog.handler.ex.CustomApiException;
 import shop.mtcoding.blog.handler.ex.CustomException;
 import shop.mtcoding.blog.model.BoardRepository;
@@ -88,5 +90,12 @@ public class BoardController {
     @GetMapping("/board/{id}/updateForm")
     public String updateForm(@PathVariable int id) {
         return "board/updateForm";
+    }
+
+    @PutMapping("/board/{id}/updateForm")
+    public String update(@PathVariable int id, BoardUpdateReqDto boardUpdateReqDto) {
+
+        boardService.게시글수정(boardUpdateReqDto, id);
+        return "redirect:/board/{id}";
     }
 }
