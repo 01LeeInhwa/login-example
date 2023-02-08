@@ -50,9 +50,20 @@ public class BoardService {
     }
 
     @Transactional
-    public void 게시글수정(BoardUpdateReqDto boardUpdateReqDto, int id) {
-        Board boardUd = boardRepository.findById(id);
-        boardUpdateReqDto.getTitle();
+    public void 게시글수정(int id, BoardUpdateReqDto boardUpdateReqDto, int principalId) {
+        // 권한 체크
+        Board boardPs = boardRepository.findById(id);
+        if (boardPs == null) {
+            throw new CustomApiException("해당 게시글을 찾을 수 없습니다.");
+        }
+        if (boardPs.getUserId() != principalId) {
+            throw new CustomApiException("게시글을 수정할 권한이 없습니다", HttpStatus.FORBIDDEN);
+        }
+
+        int result = boardRepository.updateById(id, boardUpdateReqDto.getTitle(), boardUpdateReqDto.getContent());
+        if (result != 1) {
+            throw new CustomApiException("게시글 수정에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
