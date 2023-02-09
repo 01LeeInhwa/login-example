@@ -26,7 +26,7 @@ public class HtmlParseTest {
     public void jsoup_test2() {
         String html = "<p>1</p><p><img src=\"data:image/png;base64,iVBORw0KG\"></p>";
         Document doc = Jsoup.parse(html);
-        // System.out.println(doc);
+        System.out.println(doc);
         Elements els = doc.select("img");
         // System.out.println(els);
         if (els.size() == 0) {
@@ -35,7 +35,7 @@ public class HtmlParseTest {
         } else {
             Element el = els.get(0);
             String img = el.attr("src");
-            System.out.println(img);
+            // System.out.println(img);
             // 디비 thumnail -> img
         }
     }
