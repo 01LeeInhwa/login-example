@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import shop.mtcoding.blog.dto.board.BoardReq.BoardSaveReqDto;
 import shop.mtcoding.blog.dto.board.BoardReq.BoardUpdateReqDto;
 import shop.mtcoding.blog.dto.board.BoardResp;
 import shop.mtcoding.blog.dto.board.BoardResp.BoardDetailRespDto;
@@ -45,30 +46,6 @@ public class BoardControllerTest { // 테스트는 격리성 필요 => 순서 �
     private MockMvc mvc;
 
     private MockHttpSession mockSession;
-
-    @Test
-    public void update_test() throws Exception {
-        // given
-        int id = 1;
-        BoardUpdateReqDto boardUpdateReqDto = new BoardUpdateReqDto();
-        boardUpdateReqDto.setTitle("제목1-수정");
-        boardUpdateReqDto.setContent("내용1-수정");
-
-        String requestBody = om.writeValueAsString(boardUpdateReqDto);
-        System.out.println("테스트 : " + requestBody);
-
-        // when
-        ResultActions resultActions = mvc.perform(
-                put("/board/" + id)
-                        .content(requestBody)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .session(mockSession));
-
-        // then
-        resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.code").value(1));
-
-    }
 
     @BeforeEach // Test 메서드 실행 직전 마다에 호출됨
     public void setUp() {
@@ -128,21 +105,46 @@ public class BoardControllerTest { // 테스트는 격리성 필요 => 순서 �
     @Test
     public void save_test() throws Exception {
         // given
-        String title = "";
-        for (int i = 0; i < 99; i++) {
-            title += "가";
-        }
+        BoardSaveReqDto boardSaveReqDto = new BoardSaveReqDto();
+        boardSaveReqDto.setTitle("제목");
+        boardSaveReqDto.setContent("내용");
 
-        String requestBody = "title=" + title + "&content=내용1";
+        String requestBody = om.writeValueAsString(boardSaveReqDto);
+
         // when
         ResultActions resultActions = mvc.perform(
                 post("/board")
                         .content(requestBody)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .session(mockSession));
+
+        System.out.println("save_test : ");
+        // then
+        resultActions.andExpect(status().isCreated());
+    }
+
+    @Test
+    public void update_test() throws Exception {
+        // given
+        int id = 1;
+        BoardUpdateReqDto boardUpdateReqDto = new BoardUpdateReqDto();
+        boardUpdateReqDto.setTitle("제목1-수정");
+        boardUpdateReqDto.setContent("내용1-수정");
+
+        String requestBody = om.writeValueAsString(boardUpdateReqDto);
+        System.out.println("테스트 : " + requestBody);
+
+        // when
+        ResultActions resultActions = mvc.perform(
+                put("/board/" + id)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .session(mockSession));
 
         // then
-        resultActions.andExpect(status().is3xxRedirection());
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.code").value(1));
+
     }
 
     @Test
