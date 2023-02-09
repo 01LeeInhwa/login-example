@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import lombok.Getter;
 
 @Getter
-public class CustomApiException extends RuntimeException {
+public class CustomApiException extends RuntimeException { // ajax로 받을 때
     private HttpStatus status;
 
     public CustomApiException(String msg, HttpStatus status) {
