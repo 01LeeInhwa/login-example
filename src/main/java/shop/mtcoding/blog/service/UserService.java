@@ -31,8 +31,8 @@ public class UserService {
         }
     }
 
-    // select라서 트랜잭션 사용 X, readonly
     public User 로그인(LoginReqDto loginReqDto) {
+
         User principal = userRepository.findByUsernameAndPassword(loginReqDto.getUsername(), loginReqDto.getPassword());
 
         if (principal == null) {
